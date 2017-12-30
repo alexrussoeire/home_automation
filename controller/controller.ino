@@ -2,15 +2,22 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
+#include "Adafruit_MCP23008.h"
 #include "UserConfig.h"
 
-// Connect to the WiFi
-const char* ssid = WIFI_SSID;
-const char* password = WIFI_PASSWORD;
-const char* mqtt_server = MQTT_SERVER;
+// I2C Relayboard test
+// connect VDD to power 5V
+// connect GND to power GND
+// connect SDA to analog 4 (I2C DATA)
+// connect SCL to analog 5 (I2C CLOCK)
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+Adafruit_MCP23008 mcp;
+
+#define RELAY_ON  (HIGH)
+#define RELAY_OFF (LOW)
 
 #define DOUT_0  (0)
 #define DOUT_1  (1)
@@ -42,6 +49,16 @@ PubSubClient client(espClient);
 #define GROW_BED_WATER_LEVEL_SUMP_2 (DIN_14)
 
 // MQTT Topics subscribed to.
+// Test
+#define MQTT_TOPIC_TEST_0 "greenhouse/test/0"
+#define MQTT_TOPIC_TEST_1 "greenhouse/test/1"
+#define MQTT_TOPIC_TEST_2 "greenhouse/test/2"
+#define MQTT_TOPIC_TEST_3 "greenhouse/test/3"
+#define MQTT_TOPIC_TEST_4 "greenhouse/test/4"
+#define MQTT_TOPIC_TEST_5 "greenhouse/test/5"
+#define MQTT_TOPIC_TEST_6 "greenhouse/test/6"
+#define MQTT_TOPIC_TEST_7 "greenhouse/test/7"
+
 // Cloner
 #define MQTT_TOPIC_CLONER_LIGHT "greenhouse/cloner/light"
 #define MQTT_TOPIC_CLONER_PUMP "greenhouse/cloner/pump"
@@ -73,22 +90,88 @@ PubSubClient client(espClient);
 #define DOUT_2  (2)
 #define DOUT_3  (3)
 
+typedef enum {
+  I2C_RELAY_CH_0 = 0,
+  I2C_RELAY_CH_1,
+  I2C_RELAY_CH_2,
+  I2C_RELAY_CH_3,
+  I2C_RELAY_CH_4,
+  I2C_RELAY_CH_5,
+  I2C_RELAY_CH_6,
+  I2C_RELAY_CH_7
+} i2c_relay_channel_t;
+
 const byte RelayPin0 = 14;
 const byte RelayPin1 = 12;
 const byte RelayPin2 = 13;
 const byte RelayPin3 = 15;
 
+static uint8_t i2cRelay8ChStatus = 0;
+
 #define MAX_RELAYS 4
 const byte RelayPins[MAX_RELAYS] = {14, 12, 13, 15};
+
+// Initialisation of the 4 channel 5v relay board.
+void setup_4_channels_5v_relay_board()
+{
+    unsigned int index = 0;
+
+    for(index=0; index<MAX_RELAYS; index++) {
+        pinMode(RelayPins[index], OUTPUT);
+        digitalWrite(RelayPins[index], HIGH);
+    }
+}
+
+// Initialisation of the 8 channel I2C 12v relay board.
+void setup_8_channels_i2c_12v_relay_board()
+{
+    mcp.begin(0); // address = 0 (valid: 0-7)
+    mcp.writeGPIO(RELAY_OFF); // set OLAT to 0
+    mcp.pinMode(0, OUTPUT); // set IODIR to 0
+    mcp.pinMode(1, OUTPUT);
+    mcp.pinMode(2, OUTPUT);
+    mcp.pinMode(3, OUTPUT);
+    mcp.pinMode(4, OUTPUT);
+    mcp.pinMode(5, OUTPUT);
+    mcp.pinMode(6, OUTPUT);
+    mcp.pinMode(7, OUTPUT);
+}
+
+// Update the I2C relay board channel number with the new value.
+void updateI2c8ChRelayBoard(i2c_relay_channel_t channel, uint8_t state)
+{
+    if (state) {
+        i2cRelay8ChStatus |= (1 << channel);
+    } else {
+        i2cRelay8ChStatus &= (~(1 << channel));
+    }
+    // Send the updated value to the i2c relay board.
+    mcp.writeGPIO(i2cRelay8ChStatus);
+}
 
 void callback(char* topic, byte* payload, unsigned int length) {
     unsigned char index = 0;
     char rxChar = (char)payload[0];
+
+    //String msgString = payload;
     
     Serial.print("Topic: ");
     Serial.print(topic);
+    Serial.print(" Msg: ");
+    Serial.print(rxChar);
     Serial.println();
-
+/*
+    if (msgString == "Z1ON")
+    {
+      digitalWrite(channel1, HIGH);
+      delay(250);
+    }
+    else if (msgString == "Z1OFF")
+    {
+      digitalWrite(channel1, LOW);
+      delay(250);
+    }
+*/
     if (strcmp(topic,MQTT_TOPIC_VERTICAL_VALVE)==0){
         if (rxChar == '1') {
             digitalWrite(RelayPin0, HIGH);
@@ -120,6 +203,70 @@ void callback(char* topic, byte* payload, unsigned int length) {
             digitalWrite(RelayPin3, LOW);
         }
     }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_0)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_0, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_0, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_1)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_1, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_1, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_2)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_2, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_2, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_3)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_3, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_3, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_4)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_4, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_4, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_5)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_5, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_5, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_6)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_6, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_6, RELAY_OFF);
+        }
+    }
+
+    if (strcmp(topic,MQTT_TOPIC_TEST_7)==0){
+        if (rxChar == '1') {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_7, RELAY_ON);
+        } else {
+            updateI2c8ChRelayBoard(I2C_RELAY_CH_7, RELAY_OFF);
+        }
+    }
 }
 
 void reconnect() {
@@ -127,13 +274,24 @@ void reconnect() {
 while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect("ESP8266 Greenhouse Client", "greenhouse", "greenhouse")) {
+    //if (client.connect("ESP8266 Greenhouse Client", "greenhouse", "greenhouse")) {
+    if (client.connect(mqttDeviceID)) {
             Serial.println("connected");
             // ... and subscribe to topic
             client.subscribe(MQTT_TOPIC_VERTICAL_VALVE);
             client.subscribe(MQTT_TOPIC_VERTICAL_PUMP);
             client.subscribe(MQTT_TOPIC_FISH_TANK_HEATER);
             client.subscribe(MQTT_TOPIC_FISH_TANK_COVER);
+            client.subscribe(MQTT_TOPIC_TEST_0);
+/*
+            client.subscribe(MQTT_TOPIC_TEST_1);
+            client.subscribe(MQTT_TOPIC_TEST_2);
+            client.subscribe(MQTT_TOPIC_TEST_3);
+            client.subscribe(MQTT_TOPIC_TEST_4);
+            client.subscribe(MQTT_TOPIC_TEST_5);
+            client.subscribe(MQTT_TOPIC_TEST_6);
+            client.subscribe(MQTT_TOPIC_TEST_7);
+*/
         } else {
             Serial.print("failed, rc=");
             Serial.print(client.state());
@@ -146,16 +304,16 @@ while (!client.connected()) {
 
 void setup()
 {
-    unsigned int index = 0; 
-
     Serial.begin(9600);
 
     client.setServer(mqtt_server, 1883);
     client.setCallback(callback);
 
-    for(index=0; index<MAX_RELAYS; index++) {
-        pinMode(RelayPins[index], OUTPUT);
-    }
+    // Initialisation of the 4 channel 5v relay board.
+    setup_4_channels_5v_relay_board();
+
+    // Initialisation of the 8 channel I2C 12v relay board.
+    setup_8_channels_i2c_12v_relay_board();
 }
 
 void loop()
