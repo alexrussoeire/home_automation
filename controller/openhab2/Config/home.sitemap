@@ -1,0 +1,25 @@
+sitemap home label="MK-SmartHouse"
+{
+       Frame label="Vertical Garden"
+       {
+           Switch item=VERTICAL_VALVE_VIRTUAL_SWITCH
+           Switch item=VERTICAL_VALVE
+           Switch item=VERTICAL_PUMP
+       }
+       Frame label="Fish Tank"
+       {
+           Switch item=FISH_TANK_HEATER
+           Switch item=FISH_TANK_COVER
+       }
+       Frame label="I2C Relay Test"
+       {
+           Switch item=I2C_RELAY_0
+           Switch item=I2C_RELAY_1
+           Switch item=I2C_RELAY_2
+           Switch item=I2C_RELAY_3
+           Switch item=I2C_RELAY_4
+           Switch item=I2C_RELAY_5
+           Switch item=I2C_RELAY_6
+           Switch item=I2C_RELAY_7
+       }
+}
