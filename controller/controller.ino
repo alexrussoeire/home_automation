@@ -50,40 +50,40 @@ Adafruit_MCP23008 mcp;
 
 // MQTT Topics subscribed to.
 // Test
-#define MQTT_TOPIC_TEST_0 "greenhouse/test/0"
-#define MQTT_TOPIC_TEST_1 "greenhouse/test/1"
-#define MQTT_TOPIC_TEST_2 "greenhouse/test/2"
-#define MQTT_TOPIC_TEST_3 "greenhouse/test/3"
-#define MQTT_TOPIC_TEST_4 "greenhouse/test/4"
-#define MQTT_TOPIC_TEST_5 "greenhouse/test/5"
-#define MQTT_TOPIC_TEST_6 "greenhouse/test/6"
-#define MQTT_TOPIC_TEST_7 "greenhouse/test/7"
+#define MQTT_TOPIC_TEST_0 "gh/test/0"
+#define MQTT_TOPIC_TEST_1 "gh/test/1"
+#define MQTT_TOPIC_TEST_2 "gh/test/2"
+#define MQTT_TOPIC_TEST_3 "gh/test/3"
+#define MQTT_TOPIC_TEST_4 "gh/test/4"
+#define MQTT_TOPIC_TEST_5 "gh/test/5"
+#define MQTT_TOPIC_TEST_6 "gh/test/6"
+#define MQTT_TOPIC_TEST_7 "gh/test/7"
 
 // Cloner
-#define MQTT_TOPIC_CLONER_LIGHT "greenhouse/cloner/light"
-#define MQTT_TOPIC_CLONER_PUMP "greenhouse/cloner/pump"
-#define MQTT_TOPIC_CLONER_HEATER "greenhouse/cloner/heater"
-#define MQTT_TOPIC_CLONER "greenhouse/cloner/water_level"
+#define MQTT_TOPIC_CLONER_LIGHT "gh/cloner/light"
+#define MQTT_TOPIC_CLONER_PUMP "gh/cloner/pump"
+#define MQTT_TOPIC_CLONER_HEATER "gh/cloner/heater"
+#define MQTT_TOPIC_CLONER "gh/cloner/water_level"
 
 // Lights
-#define MQTT_TOPIC_LIGHTS_SIDE "greenhouse/lights/side"
-#define MQTT_TOPIC_LIGHTS_BACK "greenhouse/lights/back"
+#define MQTT_TOPIC_LIGHTS_SIDE "gh/lights/side"
+#define MQTT_TOPIC_LIGHTS_BACK "gh/lights/back"
 
 // Vertical towers
-#define MQTT_TOPIC_VERTICAL_VALVE "greenhouse/vertical/valve"
-#define MQTT_TOPIC_VERTICAL_PUMP "greenhouse/vertical/pump"
+#define MQTT_TOPIC_VERTICAL_VALVE "gh/vertical/valve"
+#define MQTT_TOPIC_VERTICAL_PUMP "gh/vertical/pump"
 
 // Fish tank
-#define MQTT_TOPIC_FISH_TANK_HEATER "greenhouse/fish_tank/heater"
-#define MQTT_TOPIC_FISH_TANK_COVER "greenhouse/fish_tank/cover"
+#define MQTT_TOPIC_FISH_TANK_HEATER "gh/fish_tank/heater"
+#define MQTT_TOPIC_FISH_TANK_COVER "gh/fish_tank/cover"
 
 // Fan
-#define MQTT_TOPIC_FAN_FAN "greenhouse/fan/fan"
+#define MQTT_TOPIC_FAN_FAN "gh/fan/fan"
 
 // Grow bed
-#define MQTT_TOPIC_GROW_BED_PUMP "greenhouse/grow_bed/pump"
-#define MQTT_TOPIC_GROW_BED_WATER_LEVEL_SUMP_1 "greenhouse/grow_bed/water_level_sump_1"
-#define MQTT_TOPIC_GROW_BED_WATER_LEVEL_SUMP_2 "greenhouse/grow_bed/water_level_sump_2"
+#define MQTT_TOPIC_GROW_BED_PUMP "gh/grow_bed/pump"
+#define MQTT_TOPIC_GROW_BED_WATER_LEVEL_SUMP_1 "gh/grow_bed/water_level_sump_1"
+#define MQTT_TOPIC_GROW_BED_WATER_LEVEL_SUMP_2 "gh/grow_bed/water_level_sump_2"
 
 #define DOUT_0  (0)
 #define DOUT_1  (1)

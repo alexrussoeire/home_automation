@@ -1,8 +1,11 @@
 sitemap home label="MK-SmartHouse"
 {
-       Frame label="Vertical Garden"
+       Frame label="Virtual Switch"
        {
            Switch item=VERTICAL_VALVE_VIRTUAL_SWITCH
+       }
+       Frame label="Vertical Garden"
+       {
            Switch item=VERTICAL_VALVE
            Switch item=VERTICAL_PUMP
        }

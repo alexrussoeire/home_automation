@@ -2,16 +2,15 @@
 
 // Demo items
 Switch VERTICAL_VALVE_VIRTUAL_SWITCH "Vertical Valve Virtual Switch"
-Switch VERTICAL_VALVE "Vertical Valve" {mqtt=">[mosquitto:greenhouse/vertical/valve:command:ON:0],>[mosquitto$
-Switch VERTICAL_PUMP "Vertical Pump" {mqtt=">[mosquitto:greenhouse/vertical/pump:command:ON:0],>[mosquitto:gr$
-Switch FISH_TANK_HEATER "Fish Tank Heater" {mqtt=">[mosquitto:greenhouse/fish_tank/heater:command:ON:0],>[mos$
-Switch FISH_TANK_COVER "Fish Tank Cover" {mqtt=">[mosquitto:greenhouse/fish_tank/cover:command:ON:0],>[mosqui$
-Switch I2C_RELAY_0 "I2C Relay 0" {mqtt=">[mosquitto:greenhouse/test/0:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_1 "I2C Relay 1" {mqtt=">[mosquitto:greenhouse/test/1:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_2 "I2C Relay 2" {mqtt=">[mosquitto:greenhouse/test/2:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_3 "I2C Relay 3" {mqtt=">[mosquitto:greenhouse/test/3:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_4 "I2C Relay 4" {mqtt=">[mosquitto:greenhouse/test/4:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_5 "I2C Relay 5" {mqtt=">[mosquitto:greenhouse/test/5:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_6 "I2C Relay 6" {mqtt=">[mosquitto:greenhouse/test/6:command:ON:0],>[mosquitto:greenhouse/te$
-Switch I2C_RELAY_7 "I2C Relay 7" {mqtt=">[mosquitto:greenhouse/test/7:command:ON:0],>[mosquitto:greenhouse/te$
-
+Switch VERTICAL_VALVE "Vertical Valve" {mqtt=">[mosquitto:gh/vertical/valve:command:ON:0],>[mosquitto:gh/vertical/valve:command:OFF:1]"}
+Switch VERTICAL_PUMP "Vertical Pump" {mqtt=">[mosquitto:gh/vertical/pump:command:ON:0],>[mosquitto:gh/vertical/pump:command:OFF:1]"}
+Switch FISH_TANK_HEATER "Fish Tank Heater" {mqtt=">[mosquitto:gh/fish_tank/heater:command:ON:0],>[mosquitto:gh/fish_tank/heater:command:OFF:1]"}
+Switch FISH_TANK_COVER "Fish Tank Cover" {mqtt=">[mosquitto:gh/fish_tank/cover:command:ON:0],>[mosquitto:gh/fish_tank/cover:command:OFF:1]"}
+Switch I2C_RELAY_0 "I2C Relay 0" {mqtt=">[mosquitto:gh/test/0:command:ON:0],>[mosquitto:gh/test/0:command:OFF:1]"}
+Switch I2C_RELAY_1 "I2C Relay 1" {mqtt=">[mosquitto:gh/test/1:command:ON:0],>[mosquitto:gh/test/1:command:OFF:1]"}
+Switch I2C_RELAY_2 "I2C Relay 2" {mqtt=">[mosquitto:gh/test/2:command:ON:0],>[mosquitto:gh/test/2:command:OFF:1]"}
+Switch I2C_RELAY_3 "I2C Relay 3" {mqtt=">[mosquitto:gh/test/3:command:ON:0],>[mosquitto:gh/test/3:command:OFF:1]"}
+Switch I2C_RELAY_4 "I2C Relay 4" {mqtt=">[mosquitto:gh/test/4:command:ON:0],>[mosquitto:gh/test/4:command:OFF:1]"}
+Switch I2C_RELAY_5 "I2C Relay 5" {mqtt=">[mosquitto:gh/test/5:command:ON:0],>[mosquitto:gh/test/5:command:OFF:1]"}
+Switch I2C_RELAY_6 "I2C Relay 6" {mqtt=">[mosquitto:gh/test/6:command:ON:0],>[mosquitto:gh/test/6:command:OFF:1]"}
+Switch I2C_RELAY_7 "I2C Relay 7" {mqtt=">[mosquitto:gh/test/7:command:ON:0],>[mosquitto:gh/test/7:command:OFF:1]"}
