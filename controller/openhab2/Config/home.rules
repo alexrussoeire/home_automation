@@ -1,25 +1,23 @@
 //This if the rules file
-// Turn ON the vertical valve every 10 seconds for 10 seconds.
-rule "Vertical Valve ON"
+rule "Init"
 when
-    Time cron "0,20,40 * * ? * * *"
+    System started
 then
-    if (VERTICAL_VALVE_VIRTUAL_SWITCH.state == ON) {
-        sendCommand(VERTICAL_VALVE,ON)
-    } else {
-        /* Disable the vertical valve by default.  */
-//        sendCommand(VERTICAL_VALVE,OFF)
-    }
-end
-
-rule "Vertical Valve OFF"
-when
-    Time cron "10,30,50 * * ? * * *"
-then
-    if (VERTICAL_VALVE_VIRTUAL_SWITCH.state == ON) {
-        sendCommand(VERTICAL_VALVE,OFF)
-    } else {
-        /* Disable the vertical valve by default.  */
-//        sendCommand(VERTICAL_VALVE,OFF)
-    }
+    MISC_PSU_220V_12V.state = OFF
+    VERTICAL_PUMP.state = OFF
+    VERTICAL_VALVE.state = OFF
+    GROW_BED_PUMP.state = OFF
+    CLONER_LIGHT.state = OFF
+    CLONER_PUMP.state = OFF
+    CLONER_HEATER.state = OFF
+    LIGHTS_SIDE.state = OFF
+    LIGHTS_BACK.state = OFF
+    MISC_FAN.state = OFF
+    FISH_TANK_PC.state = OFF
+    FISH_TANK_HEATER.state = OFF
+    FISH_TANK_COVER.state = OFF
+    WATERFALL_PUMP.state = OFF
+    WATERFALL_LIGHT.state = OFF
+    LIGHTS_PIR.state = OFF
+    MISC_CAMERA.state = OFF
 end

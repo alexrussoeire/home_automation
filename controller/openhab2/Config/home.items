@@ -1,16 +1,34 @@
-// This is the Items file
+// Greenhouse Items file
 
-// Demo items
-Switch VERTICAL_VALVE_VIRTUAL_SWITCH "Vertical Valve Virtual Switch"
-Switch VERTICAL_VALVE "Vertical Valve" {mqtt=">[mosquitto:gh/vertical/valve:command:ON:0],>[mosquitto:gh/vertical/valve:command:OFF:1]"}
-Switch VERTICAL_PUMP "Vertical Pump" {mqtt=">[mosquitto:gh/vertical/pump:command:ON:0],>[mosquitto:gh/vertical/pump:command:OFF:1]"}
-Switch FISH_TANK_HEATER "Fish Tank Heater" {mqtt=">[mosquitto:gh/fish_tank/heater:command:ON:0],>[mosquitto:gh/fish_tank/heater:command:OFF:1]"}
-Switch FISH_TANK_COVER "Fish Tank Cover" {mqtt=">[mosquitto:gh/fish_tank/cover:command:ON:0],>[mosquitto:gh/fish_tank/cover:command:OFF:1]"}
-Switch I2C_RELAY_0 "I2C Relay 0" {mqtt=">[mosquitto:gh/test/0:command:ON:0],>[mosquitto:gh/test/0:command:OFF:1]"}
-Switch I2C_RELAY_1 "I2C Relay 1" {mqtt=">[mosquitto:gh/test/1:command:ON:0],>[mosquitto:gh/test/1:command:OFF:1]"}
-Switch I2C_RELAY_2 "I2C Relay 2" {mqtt=">[mosquitto:gh/test/2:command:ON:0],>[mosquitto:gh/test/2:command:OFF:1]"}
-Switch I2C_RELAY_3 "I2C Relay 3" {mqtt=">[mosquitto:gh/test/3:command:ON:0],>[mosquitto:gh/test/3:command:OFF:1]"}
-Switch I2C_RELAY_4 "I2C Relay 4" {mqtt=">[mosquitto:gh/test/4:command:ON:0],>[mosquitto:gh/test/4:command:OFF:1]"}
-Switch I2C_RELAY_5 "I2C Relay 5" {mqtt=">[mosquitto:gh/test/5:command:ON:0],>[mosquitto:gh/test/5:command:OFF:1]"}
-Switch I2C_RELAY_6 "I2C Relay 6" {mqtt=">[mosquitto:gh/test/6:command:ON:0],>[mosquitto:gh/test/6:command:OFF:1]"}
-Switch I2C_RELAY_7 "I2C Relay 7" {mqtt=">[mosquitto:gh/test/7:command:ON:0],>[mosquitto:gh/test/7:command:OFF:1]"}
+// Grow bed
+Switch GROW_BED_PUMP "GROW_BED_PUMP" {mqtt=">[mosquitto:gh/grow_bed/pump:command:ON:1],>[mosquitto:gh/grow_bed/pump:command:OFF:0]"}
+
+// Vertical towers
+Switch VERTICAL_PUMP "VERTICAL_PUMP" {mqtt=">[mosquitto:gh/vertical/pump:command:ON:1],>[mosquitto:gh/vertical/pump:command:OFF:0]"}
+Switch VERTICAL_VALVE "VERTICAL_VALVE" {mqtt=">[mosquitto:gh/vertical/valve:command:ON:1],>[mosquitto:gh/vertical/valve:command:OFF:0]"}
+
+// Cloner
+Switch CLONER_LIGHT "CLONER_LIGHT" {mqtt=">[mosquitto:gh/cloner/light:command:ON:1],>[mosquitto:gh/cloner/light:command:OFF:0]"}
+Switch CLONER_PUMP "CLONER_PUMP" {mqtt=">[mosquitto:gh/cloner/pump:command:ON:1],>[mosquitto:gh/cloner/pump:command:OFF:0]"}
+Switch CLONER_HEATER "CLONER_HEATER" {mqtt=">[mosquitto:gh/cloner/heater:command:ON:1],>[mosquitto:gh/cloner/heater:command:OFF:0]"}
+Switch CLONER_WATER_LEVEL "CLONER_WATER_LEVEL" {mqtt=">[mosquitto:gh/cloner/water_level:command:ON:1],>[mosquitto:gh/cloner/water_level:command:OFF:0]"}
+
+// Lights
+Switch LIGHTS_SIDE "LIGHTS_SIDE" {mqtt=">[mosquitto:gh/lights/side:command:ON:1],>[mosquitto:gh/lights/side:command:OFF:0]"}
+Switch LIGHTS_BACK "LIGHTS_BACK" {mqtt=">[mosquitto:gh/lights/back:command:ON:1],>[mosquitto:gh/lights/back:command:OFF:0]"}
+Switch LIGHTS_PIR "LIGHTS_PIR" {mqtt=">[mosquitto:gh/lights/pir:command:ON:1],>[mosquitto:gh/lights/pir:command:OFF:0]"}
+
+// Fish tank
+Switch FISH_TANK_HEATER "FISH_TANK_HEATER" {mqtt=">[mosquitto:gh/fish_tank/heater:command:ON:1],>[mosquitto:gh/fish_tank/heater:command:OFF:0]"}
+Switch FISH_TANK_COVER "FISH_TANK_COVER" {mqtt=">[mosquitto:gh/fish_tank/cover:command:ON:1],>[mosquitto:gh/fish_tank/cover:command:OFF:0]"}
+Switch FISH_TANK_PC "FISH_TANK_PC" {mqtt=">[mosquitto:gh/fish_tank/pc:command:ON:1],>[mosquitto:gh/fish_tank/pc:command:OFF:0]"}
+
+// Miscellaneous
+Switch MISC_FAN "MISC_FAN" {mqtt=">[mosquitto:gh/mics/fan:command:ON:1],>[mosquitto:gh/mics/fan:command:OFF:0]"}
+Switch MISC_PSU_220V_12V "MISC_PSU_220V_12V" {mqtt=">[mosquitto:gh/mics/psu_220v_12v:command:ON:1],>[mosquitto:gh/mics/psu_220v_12v:command:OFF:0]"}
+Switch MISC_CAMERA "MISC_CAMERA" {mqtt=">[mosquitto:gh/mics/camera:command:ON:1],>[mosquitto:gh/mics/camera:command:OFF:0]"}
+
+// Waterfall
+Switch WATERFALL_PUMP "WATERFALL_PUMP" {mqtt=">[mosquitto:gh/waterfall/pump:command:ON:1],>[mosquitto:gh/waterfall/pump:command:OFF:0]"}
+Switch WATERFALL_LIGHT "WATERFALL_LIGHT" {mqtt=">[mosquitto:gh/waterfall/light:command:ON:1],>[mosquitto:gh/waterfall/light:command:OFF:0]"}
+

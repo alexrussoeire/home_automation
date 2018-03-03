@@ -1,28 +1,42 @@
-sitemap home label="MK-SmartHouse"
+sitemap home label="Greenhouse"
 {
-       Frame label="Virtual Switch"
+       Frame label="Grow Bed"
        {
-           Switch item=VERTICAL_VALVE_VIRTUAL_SWITCH
+           Switch item=GROW_BED_PUMP
        }
-       Frame label="Vertical Garden"
+       Frame label="Vertical Towers"
        {
-           Switch item=VERTICAL_VALVE
            Switch item=VERTICAL_PUMP
+           Switch item=VERTICAL_VALVE
+       }
+       Frame label="Cloner"
+       {
+           Switch item=CLONER_LIGHT
+           Switch item=CLONER_PUMP
+           Switch item=CLONER_HEATER
+       }
+       Frame label="Lights"
+       {
+           Switch item=LIGHTS_SIDE
+           Switch item=LIGHTS_BACK
+           Switch item=LIGHTS_PIR
        }
        Frame label="Fish Tank"
        {
            Switch item=FISH_TANK_HEATER
            Switch item=FISH_TANK_COVER
+           Switch item=FISH_TANK_PC
        }
-       Frame label="I2C Relay Test"
+       Frame label="Miscellaneous"
        {
-           Switch item=I2C_RELAY_0
-           Switch item=I2C_RELAY_1
-           Switch item=I2C_RELAY_2
-           Switch item=I2C_RELAY_3
-           Switch item=I2C_RELAY_4
-           Switch item=I2C_RELAY_5
-           Switch item=I2C_RELAY_6
-           Switch item=I2C_RELAY_7
+           Switch item=MISC_FAN
+           Switch item=MISC_PSU_220V_12V
+           Switch item=MISC_CAMERA
+       }
+       Frame label="Waterfall"
+       {
+           Switch item=WATERFALL_PUMP
+           Switch item=WATERFALL_LIGHT
        }
 }
+
