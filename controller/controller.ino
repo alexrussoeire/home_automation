@@ -278,7 +278,7 @@ void reconnect() {
         // Indicate that the power is ON.
         power_on = true;
         // Enable 12v output to the I2C relay boards.
-        SetRelay5vState(RELAY_5V_MISC_PSU_220V_12V, RELAY_ON);
+        //SetRelay5vState(RELAY_5V_MISC_PSU_220V_12V, RELAY_ON);
       }
     } else {
       Serial.print("failed, rc=");
@@ -299,6 +299,9 @@ void setup()
 
   // Initialisation of the I2C relay boards.
   InitI2cRelayBoards();
+
+  // Enable 12v output to the I2C relay boards.
+  SetRelay5vState(RELAY_5V_MISC_PSU_220V_12V, RELAY_ON);
 
   // Start the MQTT server
   client.setServer(mqtt_server, 1883);
