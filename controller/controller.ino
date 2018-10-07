@@ -13,6 +13,8 @@
 // connect SCL to D1 (I2C CLOCK)
 
 //#define ENABLE_DEBUG
+//#define ENABLE_BARE_CONFIG
+#define ENABLE_AON_CONFIG
 
 #ifdef ENABLE_DEBUG
   #define DEBUG_PRINT(msg)    Serial.print(msg)
@@ -39,8 +41,8 @@ typedef enum
 {
   // 5v relay output channels
   RELAY_5V_MISC_PSU_220V_12V = D5,
-  RELAY_5V_VERTICAL_PUMP = D6,
-  RELAY_5V_VERTICAL_VALVE = D7,
+  RELAY_5V_VERTICAL_PUMP_NC = D6,
+  RELAY_5V_VERTICAL_VALVE_NC = D7,
   RELAY_5V_GROW_BED_PUMP = D8,
   // I2C relay output channels
   RELAY_I2C_CLONER_LIGHT = 0,
@@ -57,8 +59,8 @@ typedef enum
   RELAY_I2C_LIGHTS_PIR,
   RELAY_I2C_MISC_CAMERA,
   RELAY_I2C_NC_1,
-  RELAY_I2C_NC_2,
-  RELAY_I2C_NC_3
+  RELAY_I2C_VERTICAL_PUMP,
+  RELAY_I2C_VERTICAL_VALVE
 } relay_id_t;
 
 // MQTT Topics for the greenhouse subscribed to.
@@ -109,6 +111,7 @@ typedef struct {
     uint8_t state;
 } relay_t;
 
+void DoNothing(uint8_t channel, uint8_t state);
 void SetRelay5vState(uint8_t channel, uint8_t state);
 void SetRelayI2cState(uint8_t channel, uint8_t state);
 
@@ -126,10 +129,18 @@ uint8_t power_on = false;
 relay_t relay_table[MAX_RELAYS] =
 {
   // 5v relay output channels
+#ifdef ENABLE_AON_CONFIG
+  {MQTT_TOPIC_MISC_PSU_220V_12V, DoNothing, RELAY_5V_MISC_PSU_220V_12V, RELAY_OFF},
+#else
   {MQTT_TOPIC_MISC_PSU_220V_12V, SetRelay5vState, RELAY_5V_MISC_PSU_220V_12V, RELAY_OFF},
-  {MQTT_TOPIC_VERTICAL_PUMP, SetRelay5vState, RELAY_5V_VERTICAL_PUMP, RELAY_OFF},
-  {MQTT_TOPIC_VERTICAL_VALVE, SetRelay5vState, RELAY_5V_VERTICAL_VALVE, RELAY_OFF},
+#endif // ENABLE_AON_CONFIG
+  {MQTT_TOPIC_VERTICAL_PUMP, SetRelayI2cState, RELAY_I2C_VERTICAL_PUMP, RELAY_OFF},
+  {MQTT_TOPIC_VERTICAL_VALVE, SetRelayI2cState, RELAY_I2C_VERTICAL_VALVE, RELAY_OFF},
+#ifdef ENABLE_AON_CONFIG
+  {MQTT_TOPIC_GROW_BED_PUMP, DoNothing, RELAY_5V_GROW_BED_PUMP, RELAY_OFF},
+#else
   {MQTT_TOPIC_GROW_BED_PUMP, SetRelay5vState, RELAY_5V_GROW_BED_PUMP, RELAY_OFF},
+#endif // ENABLE_AON_CONFIG
   // I2C relay output channels
   {MQTT_TOPIC_CLONER_LIGHT, SetRelayI2cState, RELAY_I2C_CLONER_LIGHT, RELAY_OFF},
   {MQTT_TOPIC_CLONER_PUMP, SetRelayI2cState, RELAY_I2C_CLONER_PUMP, RELAY_OFF},
@@ -137,13 +148,22 @@ relay_t relay_table[MAX_RELAYS] =
   {MQTT_TOPIC_LIGHTS_SIDE, SetRelayI2cState, RELAY_I2C_LIGHTS_SIDE, RELAY_OFF},
   {MQTT_TOPIC_LIGHTS_BACK, SetRelayI2cState, RELAY_I2C_LIGHTS_BACK, RELAY_OFF},
   {MQTT_TOPIC_MISC_FAN, SetRelayI2cState, RELAY_I2C_MISC_FAN, RELAY_OFF},
+#ifdef ENABLE_AON_CONFIG
+  {MQTT_TOPIC_FISH_TANK_PC, DoNothing, RELAY_I2C_FISH_TANK_PC, RELAY_OFF},
+#else
   {MQTT_TOPIC_FISH_TANK_PC, SetRelayI2cState, RELAY_I2C_FISH_TANK_PC, RELAY_OFF},
+#endif // ENABLE_AON_CONFIG
+
   {MQTT_TOPIC_FISH_TANK_HEATER, SetRelayI2cState, RELAY_I2C_FISH_TANK_HEATER, RELAY_OFF},
   {MQTT_TOPIC_FISH_TANK_COVER, SetRelayI2cState, RELAY_I2C_FISH_TANK_COVER, RELAY_OFF},
   {MQTT_TOPIC_WATERFALL_PUMP, SetRelayI2cState, RELAY_I2C_WATERFALL_PUMP, RELAY_OFF},
   {MQTT_TOPIC_WATERFALL_LIGHT, SetRelayI2cState, RELAY_I2C_WATERFALL_LIGHT, RELAY_OFF},
   {MQTT_TOPIC_LIGHTS_PIR, SetRelayI2cState, RELAY_I2C_LIGHTS_PIR, RELAY_OFF},
+#ifdef ENABLE_AON_CONFIG
+  {MQTT_TOPIC_MISC_CAMERA, DoNothing, RELAY_I2C_MISC_CAMERA, RELAY_OFF}
+#else
   {MQTT_TOPIC_MISC_CAMERA, SetRelayI2cState, RELAY_I2C_MISC_CAMERA, RELAY_OFF}
+#endif // ENABLE_AON_CONFIG
 };
 
 // Initialisation of the 5v relay board.
@@ -152,8 +172,8 @@ void Init5vRelayBoard(void)
   uint8_t index = 0;
   uint8_t RelayPins[MAX_5V_RELAYS] = {
     RELAY_5V_MISC_PSU_220V_12V,
-    RELAY_5V_VERTICAL_PUMP,
-    RELAY_5V_VERTICAL_VALVE,
+    RELAY_5V_VERTICAL_PUMP_NC,
+    RELAY_5V_VERTICAL_VALVE_NC,
     RELAY_5V_GROW_BED_PUMP,
   };
 
@@ -178,6 +198,10 @@ void InitI2cRelayBoards(void)
       mcp[mcp_board].pinMode(index, OUTPUT); // set IODIR to output.
     }
   }
+}
+
+void DoNothing(uint8_t channel, uint8_t state) {
+
 }
 
 // Set a new state to the selected output of the 5v relay.
@@ -270,6 +294,7 @@ void reconnect() {
       // Subscribe to all the greenhouse topics
       for(index = 0; index < MAX_RELAYS; index++, prelay++){
         client.subscribe(prelay->topic.c_str());
+        //Serial.println(prelay->topic.c_str());
       }
 
       // Check if the power is ON or running from
@@ -300,16 +325,39 @@ void setup()
   // Initialisation of the I2C relay boards.
   InitI2cRelayBoards();
 
+#ifdef ENABLE_AON_CONFIG
   // Enable 12v output to the I2C relay boards.
   SetRelay5vState(RELAY_5V_MISC_PSU_220V_12V, RELAY_ON);
+  delay(250);
+  SetRelay5vState(RELAY_5V_GROW_BED_PUMP, RELAY_ON);
+  delay(250);
+  SetRelayI2cState(RELAY_I2C_FISH_TANK_PC, RELAY_ON);
+  delay(250);
+  SetRelayI2cState(RELAY_I2C_MISC_CAMERA, RELAY_ON);
+  delay(250);
+#endif // ENABLE_AON_CONFIG
 
+#ifdef ENABLE_BARE_CONFIG
+  SetRelay5vState(RELAY_5V_GROW_BED_PUMP, RELAY_ON);
+  delay(1000);
+  SetRelay5vState(RELAY_5V_VERTICAL_PUMP, RELAY_ON);
+  delay(1000);
+  SetRelay5vState(RELAY_5V_VERTICAL_VALVE, RELAY_ON);
+  delay(1000);
+  SetRelayI2cState(RELAY_I2C_LIGHTS_SIDE, RELAY_ON);
+  delay(1000);
+  SetRelayI2cState(RELAY_I2C_LIGHTS_BACK, RELAY_ON);
+  delay(1000);
+#else // ENABLE_BARE_CONFIG
   // Start the MQTT server
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
+#endif // ENABLE_BARE_CONFIG
 }
 
 void loop()
-{
+{ 
+#ifndef ENABLE_BARE_CONFIG
   if (!client.connected()) {
     reconnect();
   }
@@ -324,4 +372,5 @@ void loop()
     // Check if the PIR sensor detected some motion.
     // TODO.
   }
+#endif // ENABLE_BARE_CONFIG
 }
