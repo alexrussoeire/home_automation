@@ -41,11 +41,11 @@ typedef enum
 {
   // 5v relay output channels
   RELAY_5V_MISC_PSU_220V_12V = D5,
-  RELAY_5V_VERTICAL_PUMP_NC = D6,
-  RELAY_5V_VERTICAL_VALVE_NC = D7,
+  RELAY_5V_VERTICAL_PUMP_SOLID_STATE = D6,
+  RELAY_5V_CLONER_LIGHT_SOLID_STATE = D7,
   RELAY_5V_GROW_BED_PUMP = D8,
   // I2C relay output channels
-  RELAY_I2C_CLONER_LIGHT = 0,
+  RELAY_I2C_CLONER_LIGHT_NC = 0,
   RELAY_I2C_CLONER_PUMP,
   RELAY_I2C_CLONER_HEATER,
   RELAY_I2C_LIGHTS_SIDE,
@@ -134,7 +134,7 @@ relay_t relay_table[MAX_RELAYS] =
 #else
   {MQTT_TOPIC_MISC_PSU_220V_12V, SetRelay5vState, RELAY_5V_MISC_PSU_220V_12V, RELAY_OFF},
 #endif // ENABLE_AON_CONFIG
-  {MQTT_TOPIC_VERTICAL_PUMP, SetRelayI2cState, RELAY_I2C_VERTICAL_PUMP, RELAY_OFF},
+  {MQTT_TOPIC_VERTICAL_PUMP, SetRelay5vState, RELAY_5V_VERTICAL_PUMP_SOLID_STATE, RELAY_OFF},
   {MQTT_TOPIC_VERTICAL_VALVE, SetRelayI2cState, RELAY_I2C_VERTICAL_VALVE, RELAY_OFF},
 #ifdef ENABLE_AON_CONFIG
   {MQTT_TOPIC_GROW_BED_PUMP, DoNothing, RELAY_5V_GROW_BED_PUMP, RELAY_OFF},
@@ -142,7 +142,7 @@ relay_t relay_table[MAX_RELAYS] =
   {MQTT_TOPIC_GROW_BED_PUMP, SetRelay5vState, RELAY_5V_GROW_BED_PUMP, RELAY_OFF},
 #endif // ENABLE_AON_CONFIG
   // I2C relay output channels
-  {MQTT_TOPIC_CLONER_LIGHT, SetRelayI2cState, RELAY_I2C_CLONER_LIGHT, RELAY_OFF},
+  {MQTT_TOPIC_CLONER_LIGHT, SetRelay5vState, RELAY_5V_CLONER_LIGHT_SOLID_STATE, RELAY_OFF},
   {MQTT_TOPIC_CLONER_PUMP, SetRelayI2cState, RELAY_I2C_CLONER_PUMP, RELAY_OFF},
   {MQTT_TOPIC_CLONER_HEATER, SetRelayI2cState, RELAY_I2C_CLONER_HEATER, RELAY_OFF},
   {MQTT_TOPIC_LIGHTS_SIDE, SetRelayI2cState, RELAY_I2C_LIGHTS_SIDE, RELAY_OFF},
@@ -172,8 +172,8 @@ void Init5vRelayBoard(void)
   uint8_t index = 0;
   uint8_t RelayPins[MAX_5V_RELAYS] = {
     RELAY_5V_MISC_PSU_220V_12V,
-    RELAY_5V_VERTICAL_PUMP_NC,
-    RELAY_5V_VERTICAL_VALVE_NC,
+    RELAY_5V_VERTICAL_PUMP_SOLID_STATE,
+    RELAY_5V_CLONER_LIGHT_SOLID_STATE,
     RELAY_5V_GROW_BED_PUMP,
   };
 
@@ -206,8 +206,20 @@ void DoNothing(uint8_t channel, uint8_t state) {
 
 // Set a new state to the selected output of the 5v relay.
 void SetRelay5vState(uint8_t channel, uint8_t state) {
-  // 5V relay output state is inverted, i.e RELAY_OFF = Relay open.
-  digitalWrite(channel, !state);
+  switch(channel)
+  {
+    case RELAY_5V_VERTICAL_PUMP_SOLID_STATE:
+    case RELAY_5V_CLONER_LIGHT_SOLID_STATE:
+      // Solid state relay output same as the digital output, i.e RELAY_OFF = Relay closed.
+      digitalWrite(channel, state);
+    break;
+
+    case RELAY_5V_MISC_PSU_220V_12V:
+    case RELAY_5V_GROW_BED_PUMP:
+      // 5V relay output state is inverted, i.e RELAY_OFF = Relay open.
+      digitalWrite(channel, !state);
+    break;
+  }
 }
 
 // Set a new state to the selected output of the I2C relay.
