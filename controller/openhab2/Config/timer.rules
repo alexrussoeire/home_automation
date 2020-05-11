@@ -1,0 +1,94 @@
+//This if the rules file for all timer based items.
+
+// Vertical pump activated for 5mins every 3 hours starting at 00h00.
+rule "Vertical Pump ON"
+when
+    Time cron "0 0 0 ? * * *"
+then
+    //sendCommand(VERTICAL_PUMP,ON)
+end
+
+rule "Vertical Pump OFF"
+when
+    Time cron "0 5 0 ? * * *"
+then
+    //sendCommand(VERTICAL_PUMP,OFF)
+end
+
+// Vertical valve activated for 5mins every 6 hours starting at 00h00.
+// Cloner water change four times per day.
+rule "Vertical Valve and Pump ON"
+when
+    Time cron "0 0 0/6 ? * * *"
+then
+    sendCommand(VERTICAL_VALVE,ON)
+    sendCommand(VERTICAL_PUMP,ON)
+end
+
+rule "Vertical Valve and Pump OFF"
+when
+    Time cron "0 5 0/6 ? * * *"
+then
+    sendCommand(VERTICAL_VALVE,OFF)
+    sendCommand(VERTICAL_PUMP,OFF)
+end
+
+// Cloner pump activated for 10s every 3 hours starting at 00h00.
+rule "Cloner Pump ON"
+when
+    Time cron "0 0 0/3 ? * * *"
+then
+    sendCommand(CLONER_PUMP,ON)
+end
+
+rule "Cloner Pump OFF"
+when
+    Time cron "10 0 0/3 ? * * *"
+then
+    sendCommand(CLONER_PUMP,OFF)
+end
+
+// Cloner light ON between 8h00 and 00h00.
+rule "Cloner Light ON"
+when
+    Time cron "0 0 8 ? * * *"
+then
+    sendCommand(CLONER_LIGHT,ON)
+end
+
+rule "Cloner Light OFF"
+when
+    Time cron "0 0 0 ? * * *"
+then
+    sendCommand(CLONER_LIGHT,OFF)
+end
+
+// Fan ON between 8h00 and 18h00.
+rule "Fan ON"
+when
+    Time cron "0 0 6 ? * * *"
+then
+//    sendCommand(MISC_FAN,ON)
+end
+
+rule "Fan OFF"
+when
+    Time cron "0 0 18 ? * * *"
+then
+//    sendCommand(MISC_FAN,OFF)
+end
+
+// Propagator light ON between 8h00 and 00h00.
+rule "Propagator Light ON"
+when
+    Time cron "0 0 8 ? * * *"
+then
+    sendCommand(PROPAGATOR_LIGHT,ON)
+end
+
+rule "Propagator Light OFF"
+when
+    Time cron "0 0 0 ? * * *"
+then
+    sendCommand(PROPAGATOR_LIGHT,OFF)
+end

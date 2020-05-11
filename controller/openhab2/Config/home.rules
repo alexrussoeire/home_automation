@@ -3,22 +3,37 @@ rule "Init"
 when
     System started
 then
-//    MISC_PSU_220V_12V.state = OFF
-//    VERTICAL_PUMP.state = OFF
-//    VERTICAL_VALVE.state = OFF
-//    GROW_BED_PUMP.state = OFF
-//    CLONER_LIGHT.state = OFF
-//    CLONER_PUMP.state = OFF
-//    CLONER_HEATER.state = OFF
-//    LIGHTS_SIDE.state = OFF
-//    LIGHTS_BACK.state = OFF
-//    MISC_FAN.state = OFF
-//    FISH_TANK_PC.state = OFF
-//    FISH_TANK_HEATER.state = OFF
-//    FISH_TANK_COVER.state = OFF
-//    WATERFALL_PUMP.state = OFF
-//    WATERFALL_LIGHT.state = OFF
-//    LIGHTS_PIR.state = OFF
-//    MISC_CAMERA.state = OFF
+    VERTICAL_PUMP.state = OFF
+    VERTICAL_VALVE.state = OFF
+    CLONER_LIGHT.state = OFF
+    CLONER_PUMP.state = OFF
+    LIGHTS_SIDE.state = OFF
+    LIGHTS_BACK.state = OFF
+    MISC_FAN.state = ON
+    WEMOS_D0.state = OFF
+    WEMOS_D1.state = OFF
+    WEMOS_D2.state = OFF
+    WEMOS_D3.state = OFF
+    WEMOS_D4.state = OFF
+    WEMOS_D5.state = OFF
+    WEMOS_D6.state = OFF
+    WEMOS_D7.state = OFF
+    PROPAGATOR_LIGHT.state = OFF
+    PROPAGATOR_HEATER.state = OFF
+    TOWER_1.state = OFF
+    TOWER_2.state = OFF
+    TOWER_3.state = OFF
+    TOWER_4.state = OFF
+    TOWER_5.state = OFF
+    TOWER_6.state = OFF
+    TOWER_7.state = OFF
+    TOWER_8.state = OFF
+    TOWER_9.state = OFF
+    TOWER_10.state = OFF
+    TOWER_11.state = OFF
+    TOWER_12.state = OFF
+    TOWER_13.state = OFF
+    TOWER_14.state = OFF
+    TOWER_15.state = OFF
+    TOWER_16.state = OFF
 end
-

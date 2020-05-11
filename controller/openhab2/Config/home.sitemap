@@ -13,30 +13,57 @@ sitemap home label="Greenhouse"
        {
            Switch item=CLONER_LIGHT
            Switch item=CLONER_PUMP
-           Switch item=CLONER_HEATER
        }
        Frame label="Lights"
        {
            Switch item=LIGHTS_SIDE
            Switch item=LIGHTS_BACK
-           Switch item=LIGHTS_PIR
-       }
-       Frame label="Fish Tank"
-       {
-           Switch item=FISH_TANK_HEATER
-           Switch item=FISH_TANK_COVER
-           Switch item=FISH_TANK_PC
        }
        Frame label="Miscellaneous"
        {
            Switch item=MISC_FAN
-           Switch item=MISC_PSU_220V_12V
-           Switch item=MISC_CAMERA
        }
-       Frame label="Waterfall"
+       Frame label="Propagator"
        {
-           Switch item=WATERFALL_PUMP
-           Switch item=WATERFALL_LIGHT
+           Switch item=PROPAGATOR_LIGHT
+           Switch item=PROPAGATOR_HEATER
+           Text item=PROPAGATOR_TEMPERATURE label="Temperature [%.1f °C]"
+           Text item=PROPAGATOR_HUMIDITY label="Humidity [%.0f %%]"
+       }
+       Frame label="Wemos"
+       {
+           Switch item=WEMOS_D0
+           Switch item=WEMOS_D1
+           Switch item=WEMOS_D2
+           Switch item=WEMOS_D3
+           Switch item=WEMOS_D4
+           Switch item=WEMOS_D5
+           Switch item=WEMOS_D6
+           Switch item=WEMOS_D7
+       }
+       Frame label="Temp/Hum"
+       {
+           Text item=Wemos_Temperature label="Temperature [%.1f °C]"
+           Text item=Wemos_Humidity label="Humidity [%.0f %%]"
+       }
+       Frame label="Grow Towers"
+       {
+           Switch item=TOWER_1
+           Switch item=TOWER_2
+           Switch item=TOWER_3
+           Switch item=TOWER_4
+           Switch item=TOWER_5
+           Switch item=TOWER_6
+           Switch item=TOWER_7
+           Switch item=TOWER_8
+           Switch item=TOWER_9
+           Switch item=TOWER_10
+           Switch item=TOWER_11
+           Switch item=TOWER_12
+           Switch item=TOWER_13
+           Switch item=TOWER_14
+           Switch item=TOWER_15
+           Switch item=TOWER_16
        }
 }
 
