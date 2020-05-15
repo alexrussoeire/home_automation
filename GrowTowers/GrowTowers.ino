@@ -296,15 +296,17 @@ void reconnect() {
 
 void setup()
 {
+#ifdef ENABLE_DEBUG
   Serial.begin(9600);
+#endif // ENABLE_DEBUG
 
   // Print the FW version and programming date.
-  Serial.println();
-  Serial.println(FW_VERSION);
-  Serial.println(FW_DATE);
+  DEBUG_PRINT_CR();
+  DEBUG_PRINT_CR(FW_VERSION);
+  DEBUG_PRINT_CR(FW_DATE);
 
   // Print the board MAC address
-  Serial.println(WiFi.macAddress());
+  DEBUG_PRINT_CR(WiFi.macAddress());
 
   // Initialisation of the IO expander boards.
   InitRelayBoards();
